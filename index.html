@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RC Analyse IA</title>
+  <title>RC Analyse IA v2</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@700;800&family=EB+Garamond:wght@400;500&family=Segoe+UI:wght@400;600&display=swap');
 
@@ -71,8 +71,7 @@
       background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
       border-radius: 6px; color: white; font-size: 14px;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: background .15s;
-      line-height: 1;
+      transition: background .15s; line-height: 1;
     }
     #cfg-toggle:hover { background: rgba(255,255,255,.22); }
     #cfg-toggle.active { background: var(--blue); border-color: var(--blue); }
@@ -82,8 +81,7 @@
       background: white; border-bottom: 1px solid var(--border);
       padding: 10px 14px; flex-shrink: 0;
       display: flex; flex-direction: column; gap: 8px;
-      overflow: hidden;
-      max-height: 200px;
+      overflow: hidden; max-height: 200px;
       transition: max-height .25s ease, padding .25s ease, opacity .2s ease;
       opacity: 1;
     }
@@ -101,14 +99,11 @@
     /* ── CUSTOM SELECT ── */
     .sel-wrap { position: relative; }
     .sel-wrap::after {
-      content: '';
-      position: absolute; right: 10px; top: 50%;
+      content: ''; position: absolute; right: 10px; top: 50%;
       transform: translateY(-50%);
       width: 0; height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 5px solid var(--g700);
-      pointer-events: none;
+      border-left: 4px solid transparent; border-right: 4px solid transparent;
+      border-top: 5px solid var(--g700); pointer-events: none;
     }
     select {
       appearance: none; -webkit-appearance: none;
@@ -116,8 +111,7 @@
       padding: 0 28px 0 10px;
       border: 1px solid var(--border); border-radius: var(--radius);
       background: white; color: var(--black);
-      font-family: var(--font-title); font-size: 12px;
-      cursor: pointer;
+      font-family: var(--font-title); font-size: 12px; cursor: pointer;
       transition: border-color .15s, box-shadow .15s;
     }
     select:focus {
@@ -126,10 +120,9 @@
     }
     select:hover { border-color: var(--egis-bleu-azur); }
 
-    /* ── TEXT INPUT ── */
+    /* ── INPUTS ── */
     input[type="text"], input[type="password"] {
-      width: 100%; height: var(--input-h);
-      padding: 0 10px;
+      width: 100%; height: var(--input-h); padding: 0 10px;
       border: 1px solid var(--border); border-radius: var(--radius);
       font-family: var(--font-title); font-size: 11px;
       color: var(--black); background: white;
@@ -145,26 +138,21 @@
       display: inline-flex; align-items: center; justify-content: center;
       gap: 6px; padding: 0 14px; height: var(--input-h);
       border: none; border-radius: var(--radius);
-      font-family: var(--font-title); font-size: 12px;
-      font-weight: 700; cursor: pointer;
+      font-family: var(--font-title); font-size: 12px; font-weight: 700;
+      cursor: pointer;
       transition: background .15s, box-shadow .15s, transform .08s;
       white-space: nowrap; flex-shrink: 0;
     }
     .btn:active:not(:disabled) { transform: scale(.97); }
-
     .btn-primary { background: var(--egis-bleu-azur); color: white; }
     .btn-primary:hover:not(:disabled) { background: #007A8A; }
     .btn-primary:disabled { background: var(--g400); cursor: not-allowed; opacity: .7; }
-
     .btn-ghost { background: white; color: var(--egis-bleu-nuit); border: 1px solid var(--border); }
     .btn-ghost:hover { border-color: var(--egis-bleu-azur); color: var(--egis-bleu-azur); background: #E0F7F9; }
-
     .btn-success { background: var(--egis-vert); color: white; }
     .btn-success:hover { background: #96A81D; }
-
     .btn-outline-success { background: white; color: var(--egis-vert); border: 1.5px solid var(--egis-vert); }
     .btn-outline-success:hover { background: var(--green-l); }
-
     .btn-sm { height: 28px; padding: 0 10px; font-size: 11px; }
 
     #save-api-btn {
@@ -179,10 +167,8 @@
 
     /* ── MAIN SCROLL ── */
     .main {
-      flex: 1; overflow-y: auto;
-      padding: 12px 14px;
-      display: flex; flex-direction: column; gap: 10px;
-      min-height: 0;
+      flex: 1; overflow-y: auto; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 10px; min-height: 0;
     }
     .main::-webkit-scrollbar { width: 5px; }
     .main::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 10px; }
@@ -206,29 +192,106 @@
       display: flex; align-items: center; gap: 6px;
     }
     .badge-optional {
-      font-size: 9px; font-weight: 600; padding: 1px 5px;
-      border-radius: 3px; background: var(--g200); color: var(--g400);
+      font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 3px;
+      background: var(--g200); color: var(--g400);
       text-transform: uppercase; letter-spacing: .03em;
     }
-    .field-hint {
-      font-size: 10px; color: var(--egis-gris-bleu);
-      font-style: italic; margin-top: 2px;
-    }
+    .field-hint { font-size: 10px; color: var(--egis-gris-bleu); font-style: italic; margin-top: 2px; }
 
     /* ── TEXTAREA ── */
     textarea {
       width: 100%; padding: 9px 10px;
       border: 1px solid var(--border); border-radius: var(--radius);
-      font-family: var(--font-body);
-      font-size: 12.5px; line-height: 1.6; color: var(--black);
-      resize: vertical;
+      font-family: var(--font-body); font-size: 12.5px; line-height: 1.6;
+      color: var(--black); resize: vertical;
       transition: border-color .15s, box-shadow .15s;
     }
-    textarea:focus { outline: none; border-color: var(--egis-bleu-azur); box-shadow: 0 0 0 3px rgba(0, 153, 165, .1); }
+    textarea:focus {
+      outline: none; border-color: var(--egis-bleu-azur);
+      box-shadow: 0 0 0 3px rgba(0, 153, 165, .1);
+    }
     textarea::placeholder { color: var(--g400); font-family: var(--font-title); font-size: 11px; }
     textarea.ta-sm  { min-height: 52px; }
     textarea.ta-md  { min-height: 80px; }
     textarea.ta-lg  { min-height: 120px; }
+
+    /* ── PRÉ-AVIS BLOCK ── */
+    #preavis-wrap {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .3s ease, opacity .25s ease, margin .3s ease;
+      margin-top: 0;
+    }
+    #preavis-wrap.open {
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 0;
+    }
+
+    /* Toggle pré-avis row */
+    .preavis-toggle-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toggle-switch {
+      position: relative; width: 36px; height: 20px; flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0; cursor: pointer;
+      background: var(--g200); border-radius: 20px;
+      transition: background .2s;
+    }
+    .toggle-slider::before {
+      content: ''; position: absolute;
+      width: 14px; height: 14px; left: 3px; top: 3px;
+      background: white; border-radius: 50%;
+      transition: transform .2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--egis-bleu-azur); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); }
+    .toggle-label {
+      font-size: 11px; font-weight: 700; color: var(--g700);
+      font-family: var(--font-title); cursor: pointer; user-select: none;
+    }
+    .toggle-sublabel { font-size: 10px; color: var(--egis-gris-bleu); font-style: italic; }
+
+    /* Appréciation selector */
+    .apprec-selector {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .apprec-btn {
+      flex: 1; min-width: 0; padding: 7px 6px;
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      background: white; cursor: pointer;
+      font-family: var(--font-title); font-size: 10.5px; font-weight: 700;
+      text-align: center; transition: all .15s;
+      color: var(--g400); line-height: 1.3;
+    }
+    .apprec-btn:hover { border-color: var(--egis-gris-bleu); color: var(--g700); }
+    .apprec-btn.selected-sat  { background: var(--green-l); border-color: var(--egis-vert); color: var(--egis-vert); }
+    .apprec-btn.selected-part { background: #FFF9E6; border-color: var(--egis-jaune-gold); color: #B07D00; }
+    .apprec-btn.selected-ins  { background: var(--red-l); border-color: var(--egis-orange); color: var(--egis-orange); }
+
+    /* Intensité slider */
+    .intensite-row { display: flex; flex-direction: column; gap: 5px; }
+    .intensite-labels { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--g400); font-family: var(--font-title); }
+    input[type="range"] {
+      width: 100%; accent-color: var(--egis-bleu-azur);
+      height: 4px; cursor: pointer;
+    }
+
+    /* Pré-avis info banner */
+    .preavis-banner {
+      padding: 7px 10px; border-radius: var(--radius);
+      font-size: 11px; line-height: 1.5;
+      display: flex; gap: 7px; align-items: flex-start;
+    }
+    .preavis-banner.sat  { background: var(--green-l); border: 1px solid var(--egis-vert); color: #3D5A00; }
+    .preavis-banner.part { background: #FFF9E6; border: 1px solid var(--egis-jaune-gold); color: #7A5500; }
+    .preavis-banner.ins  { background: var(--red-l); border: 1px solid var(--egis-orange); color: #8C2800; }
+    .preavis-banner-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
 
     /* ── BTN ROWS ── */
     .btn-row { display: flex; gap: 7px; }
@@ -237,67 +300,32 @@
     .result-actions .btn-success { flex: 1; }
     .result-actions .btn-outline-success { flex: 1; }
 
-    /* ── RESULT ── */
-    #result-text {
-      background: var(--g100); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 10px;
-      font-size: 12px; line-height: 1.75;
-      white-space: pre-wrap; word-wrap: break-word;
-      color: var(--black);
-    }
-
-    /* Score badge */
-    .score-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 10px; border-radius: 20px;
-      font-family: var(--font-title); font-size: 11px; font-weight: 800;
-    }
-    .score-satisfaisant  { background: var(--green-l); color: var(--egis-vert); border: 1.5px solid var(--egis-vert); }
-    .score-partiel       { background: #FFF9E6; color: #C98B00; border: 1.5px solid var(--egis-jaune-gold); }
-    .score-insuffisant   { background: var(--red-l); color: var(--egis-orange); border: 1.5px solid var(--egis-orange); }
-
     /* ── LOADING ── */
     #loading { display: none; }
     .loading-inner { display: flex; align-items: center; gap: 10px; padding: 12px; }
     .spinner {
       width: 18px; height: 18px; flex-shrink: 0;
-      border: 2px solid #E0F7F9;
-      border-top-color: var(--egis-bleu-azur);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
+      border: 2px solid #E0F7F9; border-top-color: var(--egis-bleu-azur);
+      border-radius: 50%; animation: spin .7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     #loading-text { font-size: 12px; color: var(--g700); font-style: italic; }
 
     #result-container { display: none; }
 
-    /* ── STATUS BAR ── */
-    #status-bar {
-      padding: 6px 12px; font-size: 10.5px;
-      border-top: 1px solid var(--border); background: white;
-      display: flex; align-items: center; gap: 6px;
-      flex-shrink: 0; color: var(--egis-gris-bleu);
-    }
-    #status-bar.ok  { color: var(--egis-vert); }
-    #status-bar.err { color: var(--egis-orange); }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-
-    /* ── ANALYSE SECTIONS ── */
+    /* ── RESULT SECTIONS ── */
     .analyse-section { margin-bottom: 10px; }
     .analyse-section:last-child { margin-bottom: 0; }
     .analyse-section-title {
       font-size: 10px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .06em; margin-bottom: 5px;
-      font-family: var(--font-title);
+      letter-spacing: .06em; margin-bottom: 5px; font-family: var(--font-title);
     }
-    .analyse-body {
-      font-size: 12px; line-height: 1.7;
-      white-space: pre-wrap; word-wrap: break-word;
-    }
-    .section-synthese .analyse-section-title { color: var(--egis-bleu-azur); }
+    .analyse-body { font-size: 12px; line-height: 1.7; }
+    .section-synthese  .analyse-section-title { color: var(--egis-bleu-azur); }
     .section-points-forts .analyse-section-title { color: var(--egis-vert); }
     .section-reserves .analyse-section-title { color: var(--egis-orange); }
     .section-score .analyse-section-title { color: var(--g700); }
+    .section-ecart .analyse-section-title { color: var(--egis-bleu-moyen); }
 
     .section-points-forts .analyse-body-wrap {
       padding: 8px 10px; background: var(--green-l);
@@ -311,13 +339,44 @@
       padding: 8px 10px; background: #E0F7F9;
       border-left: 3px solid var(--egis-bleu-azur); border-radius: 0 4px 4px 0;
     }
-    .section-corrige .analyse-body-wrap {
-      padding: 8px 10px; background: var(--g100);
-      border: 1px solid var(--border); border-radius: 4px;
+    .section-ecart .analyse-body-wrap {
+      padding: 8px 10px; background: #EDF3FB;
+      border-left: 3px solid var(--egis-bleu-moyen); border-radius: 0 4px 4px 0;
+      font-size: 11.5px; line-height: 1.6; color: var(--egis-bleu-nuit);
     }
 
-    /* divider */
+    /* Score badge */
+    .score-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 20px;
+      font-family: var(--font-title); font-size: 11px; font-weight: 800;
+    }
+    .score-satisfaisant  { background: var(--green-l); color: var(--egis-vert); border: 1.5px solid var(--egis-vert); }
+    .score-partiel       { background: #FFF9E6; color: #C98B00; border: 1.5px solid var(--egis-jaune-gold); }
+    .score-insuffisant   { background: var(--red-l); color: var(--egis-orange); border: 1.5px solid var(--egis-orange); }
+
+    /* Écart pré-avis/IA */
+    .ecart-chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+    .chip {
+      padding: 3px 9px; border-radius: 12px;
+      font-family: var(--font-title); font-size: 10px; font-weight: 700;
+    }
+    .chip-preavis { background: var(--g200); color: var(--g700); }
+    .chip-ia      { background: var(--blue-light); color: var(--egis-bleu-azur); }
+    .chip-arrow   { color: var(--g400); font-size: 12px; }
+
     .divider { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
+
+    /* ── STATUS BAR ── */
+    #status-bar {
+      padding: 6px 12px; font-size: 10.5px;
+      border-top: 1px solid var(--border); background: white;
+      display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0; color: var(--egis-gris-bleu);
+    }
+    #status-bar.ok  { color: var(--egis-vert); }
+    #status-bar.err { color: var(--egis-orange); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -357,48 +416,107 @@
 
 <div class="main">
 
+  <!-- CRITÈRES -->
   <div class="card">
     <div class="card-header">📋 Critères du règlement de consultation</div>
     <div class="card-body">
-
       <div class="field-group">
         <label class="field-label" for="field-metier">Métier / Objet du marché</label>
         <textarea id="field-metier" class="ta-sm" placeholder="Ex : Ligne Aérienne de Contact Tramway"></textarea>
       </div>
-
       <div class="field-group">
         <label class="field-label" for="field-critere">Critère</label>
         <textarea id="field-critere" class="ta-sm" placeholder="Ex : Chapitre 1 : Organisation et moyens humains — Chap. 1.1 : Organisation dédiée au projet"></textarea>
       </div>
-
       <div class="field-group">
         <label class="field-label" for="field-detail">
           Détail du critère
           <span class="badge-optional">Optionnel</span>
         </label>
-        <textarea id="field-detail" class="ta-md" placeholder="Ex : Le candidat doit présenter l'organisation de l'entreprise ou du groupement, le détail des travaux confiés aux sous-traitants…"></textarea>
+        <textarea id="field-detail" class="ta-md" placeholder="Ex : Le candidat doit présenter l'organisation de l'entreprise ou du groupement…"></textarea>
       </div>
-
     </div>
   </div>
 
+  <!-- RÉPONSE ENTREPRISE -->
   <div class="card">
     <div class="card-header">📝 Réponse de l'entreprise</div>
     <div class="card-body">
-
       <div class="field-group">
         <textarea id="field-reponse" class="ta-lg" placeholder="Collez ici le texte de réponse du candidat issu de son mémoire technique…"></textarea>
         <div class="field-hint">Vous pouvez importer directement votre sélection Word ↓</div>
       </div>
-
       <div class="btn-row">
         <button class="btn btn-ghost" id="import-btn">📥 Importer la sélection Word</button>
-        <button class="btn btn-primary" id="run-btn" disabled>▶ Analyser</button>
       </div>
+    </div>
+  </div>
+
+  <!-- PRÉ-AVIS -->
+  <div class="card">
+    <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>🎯 Pré-avis instructeur</span>
+      <span class="badge-optional">Optionnel</span>
+    </div>
+    <div class="card-body">
+
+      <div class="preavis-toggle-row">
+        <label class="toggle-switch">
+          <input type="checkbox" id="preavis-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <div>
+          <div class="toggle-label" for="preavis-toggle">Orienter l'analyse avec un pré-avis</div>
+          <div class="toggle-sublabel">L'IA en tiendra compte pour nuancer sa synthèse</div>
+        </div>
+      </div>
+
+      <div id="preavis-wrap">
+
+        <div class="field-group">
+          <div class="field-label">Appréciation souhaitée</div>
+          <div class="apprec-selector">
+            <button class="apprec-btn" data-val="Satisfaisant" data-cls="selected-sat">✔ Satisfaisant</button>
+            <button class="apprec-btn" data-val="Partiellement satisfaisant" data-cls="selected-part">⚠ Partiel</button>
+            <button class="apprec-btn" data-val="Insuffisant" data-cls="selected-ins">✘ Insuffisant</button>
+          </div>
+        </div>
+
+        <div class="field-group intensite-row">
+          <div class="field-label">
+            Intensité du guidage
+            <span id="intensite-val" style="font-size:10px;color:var(--egis-bleu-azur);font-weight:800;margin-left:4px;">Modéré</span>
+          </div>
+          <input type="range" id="intensite-slider" min="1" max="3" step="1" value="2" />
+          <div class="intensite-labels">
+            <span>Suggérer</span>
+            <span>Modéré</span>
+            <span>Confirmer</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="field-preavis-note">
+            Note complémentaire
+            <span class="badge-optional">Optionnel</span>
+          </label>
+          <textarea id="field-preavis-note" class="ta-sm"
+            placeholder="Ex : Réponse trop générique, pas de référence métier précise. Ou : organisation claire mais sous-traitance non précisée."></textarea>
+        </div>
+
+        <div id="preavis-banner" style="display:none;" class="preavis-banner">
+          <span class="preavis-banner-icon"></span>
+          <span id="preavis-banner-text"></span>
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary" id="run-btn" disabled style="width:100%;margin-top:2px;">▶ Analyser</button>
 
     </div>
   </div>
 
+  <!-- LOADING -->
   <div id="loading" class="card">
     <div class="loading-inner">
       <div class="spinner"></div>
@@ -406,10 +524,10 @@
     </div>
   </div>
 
+  <!-- RÉSULTAT -->
   <div id="result-container" class="card">
     <div class="card-header">🔍 Résultat de l'analyse</div>
-    <div class="card-body" id="result-body">
-    </div>
+    <div class="card-body" id="result-body"></div>
   </div>
 
 </div>
@@ -423,13 +541,22 @@
 <script>
 'use strict';
 
-var currentProvider = 'anthropic';
-var lastResult = '';
+var currentProvider  = 'anthropic';
+var lastResult       = '';
+var selectedApprec   = '';
 
 var DEFAULT_MODELS = {
   anthropic:  'claude-sonnet-4-20250514',
   groq:       'llama-3.3-70b-versatile',
   openrouter: 'openai/gpt-4o-mini'
+};
+
+var INTENSITE_LABELS = { '1': 'Suggérer', '2': 'Modéré', '3': 'Confirmer' };
+
+var INTENSITE_PROMPTS = {
+  '1': 'L\'instructeur penche légèrement vers une appréciation "{apprec}" mais souhaite que l\'analyse reste entièrement objective. Tiens-en compte comme simple signal indicatif.',
+  '2': 'L\'instructeur estime que la réponse mérite une appréciation "{apprec}". Si tes propres conclusions convergent, confirme ce sens ; si tu décèles des éléments contraires significatifs, signale-les clairement dans la section "Écart".',
+  '3': 'L\'instructeur confirme l\'appréciation "{apprec}" sur la base de sa lecture de la réponse. Rédige la synthèse en cohérence avec cette appréciation et mets en avant les éléments qui la justifient. Si tu identifies néanmoins des contradictions majeures, mentionne-les factuellement.'
 };
 
 // ── INIT ──
@@ -439,6 +566,13 @@ function bindUI() {
   document.getElementById('save-api-btn').addEventListener('click', saveApiConfig);
   document.getElementById('run-btn').addEventListener('click', runAnalysis);
   document.getElementById('import-btn').addEventListener('click', importSelection);
+  document.getElementById('preavis-toggle').addEventListener('change', onPreavisToggle);
+  document.getElementById('intensite-slider').addEventListener('input', onIntensiteChange);
+
+  document.querySelectorAll('.apprec-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { selectApprec(btn); });
+  });
+
   loadConfig();
   startSelectionListener();
 }
@@ -465,7 +599,6 @@ function loadConfig() {
   currentProvider = provider;
   document.getElementById('api-provider').value = provider;
   applyProviderDefaults(provider);
-
   var key = localStorage.getItem('rc_key_' + provider);
   if (key) {
     document.getElementById('api-key-input').value = key;
@@ -507,6 +640,60 @@ function saveApiConfig() {
   setStatus('ok', 'Configuration enregistrée — ' + provider);
 }
 
+// ── PRÉ-AVIS ──
+function onPreavisToggle() {
+  var on = document.getElementById('preavis-toggle').checked;
+  var wrap = document.getElementById('preavis-wrap');
+  if (on) {
+    wrap.classList.add('open');
+  } else {
+    wrap.classList.remove('open');
+    // reset
+    selectedApprec = '';
+    document.querySelectorAll('.apprec-btn').forEach(function(b) {
+      b.classList.remove('selected-sat','selected-part','selected-ins');
+    });
+    document.getElementById('preavis-banner').style.display = 'none';
+  }
+}
+
+function selectApprec(btn) {
+  document.querySelectorAll('.apprec-btn').forEach(function(b) {
+    b.classList.remove('selected-sat','selected-part','selected-ins');
+  });
+  btn.classList.add(btn.dataset.cls);
+  selectedApprec = btn.dataset.val;
+  updatePreavisBanner();
+}
+
+function onIntensiteChange() {
+  var val = document.getElementById('intensite-slider').value;
+  document.getElementById('intensite-val').textContent = INTENSITE_LABELS[val];
+  updatePreavisBanner();
+}
+
+function updatePreavisBanner() {
+  var banner = document.getElementById('preavis-banner');
+  var text   = document.getElementById('preavis-banner-text');
+  var icon   = banner.querySelector('.preavis-banner-icon');
+  var val    = document.getElementById('intensite-slider').value;
+
+  if (!selectedApprec) { banner.style.display = 'none'; return; }
+
+  banner.className = 'preavis-banner';
+  if (selectedApprec === 'Satisfaisant') {
+    banner.classList.add('sat'); icon.textContent = '✔';
+  } else if (selectedApprec === 'Partiellement satisfaisant') {
+    banner.classList.add('part'); icon.textContent = '⚠';
+  } else {
+    banner.classList.add('ins'); icon.textContent = '✘';
+  }
+
+  var label = INTENSITE_LABELS[val].toLowerCase();
+  text.textContent = 'L\'IA orientera sa synthèse vers "' + selectedApprec + '" — guidage ' + label + '.';
+  banner.style.display = 'flex';
+}
+
 // ── SELECTION EN TEMPS REEL ──
 var lastWordSelection = '';
 
@@ -533,7 +720,6 @@ function startSelectionListener() {
   );
 }
 
-// ── IMPORT WORD ──
 function importSelection() {
   if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
     setStatus('err', 'Fonction disponible uniquement dans Word');
@@ -564,10 +750,27 @@ function buildPrompt() {
   var critere = document.getElementById('field-critere').value.trim();
   var detail  = document.getElementById('field-detail').value.trim();
   var reponse = document.getElementById('field-reponse').value.trim();
+  var hasPreavis = document.getElementById('preavis-toggle').checked;
+  var note    = document.getElementById('field-preavis-note').value.trim();
+  var intensite = document.getElementById('intensite-slider').value;
 
-  var detailBlock = detail
-    ? '\n\nDÉTAIL DU CRITÈRE :\n"""\n' + detail + '\n"""'
-    : '';
+  var detailBlock = detail ? '\n\nDÉTAIL DU CRITÈRE :\n"""\n' + detail + '\n"""' : '';
+
+  var preavisBlock = '';
+  var ecartInstruction = '';
+  if (hasPreavis && selectedApprec) {
+    var tpl = INTENSITE_PROMPTS[intensite] || INTENSITE_PROMPTS['2'];
+    preavisBlock = '\n\nPRÉ-AVIS DE L\'INSTRUCTEUR :\n'
+      + tpl.replace('{apprec}', selectedApprec);
+    if (note) {
+      preavisBlock += '\nNote complémentaire de l\'instructeur : "' + note + '"';
+    }
+    if (intensite !== '3') {
+      ecartInstruction = '\n- Si ton appréciation diverge du pré-avis, renseigne le champ "ecart" avec une explication factuelle (2-3 phrases). Sinon, laisse "ecart" vide ("").';
+    } else {
+      ecartInstruction = '\n- Si malgré le guidage tu décèles des contradictions majeures, renseigne le champ "ecart". Sinon laisse-le vide ("").';
+    }
+  }
 
   return 'Tu es un expert en marchés publics français, spécialisé dans l\'analyse et la notation des mémoires techniques de candidats.'
     + ' Tu analyses la réponse d\'un candidat à un critère précis du règlement de consultation (RC) d\'un marché public.'
@@ -575,23 +778,25 @@ function buildPrompt() {
     + '\n\nCRITÈRE ÉVALUÉ :\n"""\n' + critere + '\n"""'
     + detailBlock
     + '\n\nRÉPONSE DU CANDIDAT :\n"""\n' + reponse + '\n"""'
+    + preavisBlock
     + '\n\nRÈGLES D\'ANALYSE :'
     + '\n1. Évalue si la réponse du candidat répond effectivement aux exigences du critère.'
     + '\n2. Identifie les points forts : éléments concrets, précis, pertinents par rapport au critère.'
     + '\n3. Identifie les réserves ou lacunes : éléments absents, vagues, ou insuffisamment détaillés.'
     + '\n4. Attribue une appréciation globale parmi : "Satisfaisant", "Partiellement satisfaisant", "Insuffisant".'
-    + '\n5. Rédige la synthèse en 100 à 200 mots maximum, dans un style neutre et factuel adapté à un rapport d\'analyse de marché public.'
-    + '\n6. La synthèse est rédigée à la 3ème personne ("Le candidat...", "L\'entreprise...").'
+    + '\n5. Rédige la synthèse en 100 à 200 mots maximum, dans un style neutre et factuel adapté à un rapport d\'analyse de marché public, à la 3ème personne.'
+    + ecartInstruction
     + '\n\nRéponds UNIQUEMENT en JSON strict, sans texte avant ni après :'
     + '\n{'
     + '\n  "appreciation": "Satisfaisant|Partiellement satisfaisant|Insuffisant",'
-    + '\n  "synthese": "Texte de synthèse de 100 à 200 mots",'
+    + '\n  "synthese": "Texte de synthèse 100-200 mots",'
     + '\n  "points_forts": ["point 1", "point 2"],'
-    + '\n  "reserves": ["réserve 1", "réserve 2"]'
+    + '\n  "reserves": ["réserve 1", "réserve 2"],'
+    + '\n  "ecart": ""'
     + '\n}';
 }
 
-// ── RUN ANALYSIS ──
+// ── RUN ──
 function runAnalysis() {
   var metier  = document.getElementById('field-metier').value.trim();
   var critere = document.getElementById('field-critere').value.trim();
@@ -602,6 +807,9 @@ function runAnalysis() {
   if (!metier)  { setStatus('err', 'Veuillez renseigner le champ Métier'); return; }
   if (!critere) { setStatus('err', 'Veuillez renseigner le critère'); return; }
   if (!reponse) { setStatus('err', 'Veuillez saisir la réponse de l\'entreprise'); return; }
+  if (document.getElementById('preavis-toggle').checked && !selectedApprec) {
+    setStatus('err', 'Sélectionnez une appréciation pour le pré-avis'); return;
+  }
   if (!apiKey)  { setStatus('err', 'Clé API manquante — validez la configuration'); return; }
 
   setLoading(true);
@@ -620,9 +828,7 @@ function runAnalysis() {
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: model,
-        max_tokens: 1000,
-        temperature: 0.2,
+        model: model, max_tokens: 1000, temperature: 0.2,
         messages: [{ role: 'user', content: prompt }]
       })
     }).then(function(resp) {
@@ -636,32 +842,21 @@ function runAnalysis() {
     var url = currentProvider === 'groq'
       ? 'https://api.groq.com/openai/v1/chat/completions'
       : 'https://openrouter.ai/api/v1/chat/completions';
-
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + apiKey
-    };
+    var headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey };
     if (currentProvider === 'openrouter') {
       headers['HTTP-Referer'] = window.location.origin || 'https://rc-analyse.local';
       headers['X-Title'] = 'RC Analyse IA';
     }
-
     fetchPromise = fetch(url, {
-      method: 'POST',
-      headers: headers,
+      method: 'POST', headers: headers,
       body: JSON.stringify({
-        model: model,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.2,
-        max_tokens: 1200
+        model: model, temperature: 0.2, max_tokens: 1200,
+        messages: [{ role: 'user', content: prompt }]
       })
     }).then(function(resp) {
       return resp.json().then(function(data) {
-        if (resp.status === 429) throw new Error('Trop de requêtes. Attendez quelques secondes et réessayez.');
-        if (!resp.ok) {
-          var errMsg = data.error && data.error.message ? data.error.message : ('Erreur ' + resp.status);
-          throw new Error(errMsg);
-        }
+        if (resp.status === 429) throw new Error('Trop de requêtes. Attendez quelques secondes.');
+        if (!resp.ok) throw new Error(data.error && data.error.message ? data.error.message : 'Erreur ' + resp.status);
         return data.choices[0].message.content;
       });
     });
@@ -684,16 +879,15 @@ function runAnalysis() {
   });
 }
 
-// ── RENDER ANALYSE ──
+// ── RENDER ──
 function renderAnalyse(raw) {
   var container = document.getElementById('result-container');
-  var body = document.getElementById('result-body');
+  var body      = document.getElementById('result-body');
+  var hasPreavis = document.getElementById('preavis-toggle').checked && selectedApprec;
 
   try {
     var clean = raw.replace(/```json|```/g, '').trim();
     var data  = JSON.parse(clean);
-
-    // Sauvegarder la synthèse pour copie/insertion Word
     lastResult = data.synthese || '';
 
     var apprec = data.appreciation || '';
@@ -701,18 +895,35 @@ function renderAnalyse(raw) {
       : apprec === 'Partiellement satisfaisant' ? 'score-partiel'
       : 'score-insuffisant';
     var scoreIcon = apprec === 'Satisfaisant' ? '✔'
-      : apprec === 'Partiellement satisfaisant' ? '⚠'
-      : '✘';
+      : apprec === 'Partiellement satisfaisant' ? '⚠' : '✘';
 
     var html = '';
 
-    // Score
-    html += '<div class="analyse-section section-score">'
-      + '<div class="analyse-section-title">Appréciation globale</div>'
-      + '<span class="score-badge ' + scoreClass + '">' + scoreIcon + ' ' + esc(apprec) + '</span>'
-      + '</div>';
+    // Score + éventuel écart pré-avis
+    html += '<div class="analyse-section section-score">';
+    html += '<div class="analyse-section-title">Appréciation globale</div>';
+
+    if (hasPreavis) {
+      // Afficher les deux chips si différents
+      html += '<div class="ecart-chips">';
+      html += '<span class="chip chip-preavis">Pré-avis : ' + esc(selectedApprec) + '</span>';
+      html += '<span class="chip-arrow">→</span>';
+      html += '<span class="chip chip-ia">IA : ' + esc(apprec) + '</span>';
+      html += '</div>';
+    }
+
+    html += '<span class="score-badge ' + scoreClass + '">' + scoreIcon + ' ' + esc(apprec) + '</span>';
+    html += '</div>';
 
     html += '<hr class="divider"/>';
+
+    // Écart instructeur/IA
+    if (hasPreavis && data.ecart && data.ecart.trim()) {
+      html += '<div class="analyse-section section-ecart">'
+        + '<div class="analyse-section-title">↕ Écart avec le pré-avis</div>'
+        + '<div class="analyse-body-wrap">' + esc(data.ecart) + '</div>'
+        + '</div>';
+    }
 
     // Synthèse
     if (data.synthese) {
@@ -744,7 +955,6 @@ function renderAnalyse(raw) {
       html += '</ul></div></div>';
     }
 
-    // Actions
     html += '<hr class="divider"/>'
       + '<div class="result-actions">'
       + '<button class="btn btn-success btn-sm" id="insert-btn">➕ Insérer dans Word</button>'
@@ -753,20 +963,16 @@ function renderAnalyse(raw) {
       + '</div>';
 
     body.innerHTML = html;
-
     document.getElementById('insert-btn').addEventListener('click', insertResult);
     document.getElementById('replace-btn').addEventListener('click', replaceSelection);
     document.getElementById('copy-btn').addEventListener('click', copyResult);
-
     container.style.display = 'block';
 
   } catch(e) {
-    // Fallback texte brut
     lastResult = raw;
-    body.innerHTML = '<div id="result-text">' + esc(raw) + '</div>'
+    body.innerHTML = '<div style="font-size:12px;white-space:pre-wrap;">' + esc(raw) + '</div>'
       + '<div class="result-actions" style="margin-top:10px;">'
-      + '<button class="btn btn-ghost btn-sm" id="copy-btn">📋 Copier</button>'
-      + '</div>';
+      + '<button class="btn btn-ghost btn-sm" id="copy-btn">📋 Copier</button></div>';
     document.getElementById('copy-btn').addEventListener('click', copyResult);
     container.style.display = 'block';
   }
@@ -780,12 +986,10 @@ function esc(str) {
 function insertResult() {
   if (!lastResult) return;
   if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
-    setStatus('err', 'Disponible uniquement dans Word');
-    return;
+    setStatus('err', 'Disponible uniquement dans Word'); return;
   }
   Office.context.document.setSelectedDataAsync(
-    '\n' + lastResult,
-    { coercionType: Office.CoercionType.Text },
+    '\n' + lastResult, { coercionType: Office.CoercionType.Text },
     function(result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         setStatus('ok', 'Synthèse insérée après la sélection');
@@ -795,11 +999,8 @@ function insertResult() {
             var range = ctx.document.getSelection();
             range.insertText('\n' + lastResult, Word.InsertLocation.after);
             return ctx.sync();
-          }).then(function() {
-            setStatus('ok', 'Synthèse insérée');
-          }).catch(function(e) {
-            setStatus('err', 'Erreur insertion : ' + e.message);
-          });
+          }).then(function() { setStatus('ok', 'Synthèse insérée'); })
+            .catch(function(e) { setStatus('err', 'Erreur insertion : ' + e.message); });
         } else {
           setStatus('err', 'Erreur insertion : ' + (result.error ? result.error.message : 'inconnue'));
         }
@@ -811,12 +1012,10 @@ function insertResult() {
 function replaceSelection() {
   if (!lastResult) return;
   if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
-    setStatus('err', 'Disponible uniquement dans Word');
-    return;
+    setStatus('err', 'Disponible uniquement dans Word'); return;
   }
   Office.context.document.setSelectedDataAsync(
-    lastResult,
-    { coercionType: Office.CoercionType.Text },
+    lastResult, { coercionType: Office.CoercionType.Text },
     function(result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         setStatus('ok', 'Texte remplacé');
@@ -834,7 +1033,6 @@ function copyResult() {
     .catch(function() { setStatus('err', 'Erreur copie'); });
 }
 
-// ── HELPERS ──
 function setLoading(on) {
   document.getElementById('loading').style.display = on ? 'block' : 'none';
   document.getElementById('run-btn').disabled = on;
