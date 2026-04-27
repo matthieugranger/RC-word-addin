@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RC Analyse IA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@700;800&family=EB+Garamond:wght@400;500&family=Segoe+UI:wght@400;600&display=swap');
+
+    :root {
+      --egis-bleu-nuit:       #08212C;
+      --egis-vert:            #ABC022;
+      --egis-bleu-azur:       #0099A5;
+      --egis-gris-bleu:       #5D848A;
+      --egis-bleu-canard:     #00617E;
+      --egis-gris-acier:      #97B8BB;
+      --egis-bleu-moyen:      #75A0D2;
+      --egis-orange:          #F75226;
+      --egis-rouge-coral:     #FA5D5D;
+      --egis-jaune-gold:      #FDC603;
+
+      --blue:       var(--egis-bleu-azur);
+      --blue-light: #E0F7F9;
+      --blue-dark:  var(--egis-bleu-nuit);
+      --g100: #F4F7F8;
+      --g200: #E8EFF0;
+      --g400: var(--egis-gris-bleu);
+      --g700: var(--egis-bleu-nuit);
+      --black: var(--egis-bleu-nuit);
+      --green: var(--egis-vert);
+      --green-l: #F4F8E6;
+      --red:  var(--egis-orange);
+      --red-l: #FEF3F0;
+      --border: var(--egis-gris-acier);
+      --radius: 5px;
+      --input-h: 32px;
+
+      --font-title: 'Urbanist', 'Segoe UI', sans-serif;
+      --font-body: 'EB Garamond', 'Segoe UI', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px; color: var(--black);
+      background: var(--g100);
+      height: 100vh; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--egis-bleu-nuit); color: white;
+      padding: 11px 14px;
+      display: flex; align-items: center; gap: 10px;
+      flex-shrink: 0;
+      border-bottom: 3px solid var(--egis-bleu-azur);
+    }
+    .header-logo {
+      width: 28px; height: 28px; background: var(--egis-vert);
+      border-radius: 4px; display: flex; align-items: center;
+      justify-content: center; font-size: 13px; font-weight: 800;
+      font-family: var(--font-title); flex-shrink: 0;
+    }
+    .header-title { font-size: 13px; font-weight: 600; line-height: 1.2; }
+    .header-sub   { font-size: 10px; color: rgba(255,255,255,.6); margin-top: 1px; }
+
+    #cfg-toggle {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 6px; color: white; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+      line-height: 1;
+    }
+    #cfg-toggle:hover { background: rgba(255,255,255,.22); }
+    #cfg-toggle.active { background: var(--blue); border-color: var(--blue); }
+
+    /* ── CONFIG PANEL ── */
+    #api-setup {
+      background: white; border-bottom: 1px solid var(--border);
+      padding: 10px 14px; flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 8px;
+      overflow: hidden;
+      max-height: 200px;
+      transition: max-height .25s ease, padding .25s ease, opacity .2s ease;
+      opacity: 1;
+    }
+    #api-setup.collapsed {
+      max-height: 0; padding-top: 0; padding-bottom: 0;
+      opacity: 0; pointer-events: none;
+    }
+    .cfg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cfg-col { display: flex; flex-direction: column; gap: 4px; }
+    .cfg-label {
+      font-size: 10px; font-weight: 700; color: var(--g700);
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    /* ── CUSTOM SELECT ── */
+    .sel-wrap { position: relative; }
+    .sel-wrap::after {
+      content: '';
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--g700);
+      pointer-events: none;
+    }
+    select {
+      appearance: none; -webkit-appearance: none;
+      width: 100%; height: var(--input-h);
+      padding: 0 28px 0 10px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: white; color: var(--black);
+      font-family: var(--font-title); font-size: 12px;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    select:focus {
+      outline: none; border-color: var(--egis-bleu-azur);
+      box-shadow: 0 0 0 3px rgba(0, 153, 165, .12);
+    }
+    select:hover { border-color: var(--egis-bleu-azur); }
+
+    /* ── TEXT INPUT ── */
+    input[type="text"], input[type="password"] {
+      width: 100%; height: var(--input-h);
+      padding: 0 10px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: var(--font-title); font-size: 11px;
+      color: var(--black); background: white;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none; border-color: var(--egis-bleu-azur);
+      box-shadow: 0 0 0 3px rgba(0, 153, 165, .1);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 0 14px; height: var(--input-h);
+      border: none; border-radius: var(--radius);
+      font-family: var(--font-title); font-size: 12px;
+      font-weight: 700; cursor: pointer;
+      transition: background .15s, box-shadow .15s, transform .08s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .btn:active:not(:disabled) { transform: scale(.97); }
+
+    .btn-primary { background: var(--egis-bleu-azur); color: white; }
+    .btn-primary:hover:not(:disabled) { background: #007A8A; }
+    .btn-primary:disabled { background: var(--g400); cursor: not-allowed; opacity: .7; }
+
+    .btn-ghost { background: white; color: var(--egis-bleu-nuit); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--egis-bleu-azur); color: var(--egis-bleu-azur); background: #E0F7F9; }
+
+    .btn-success { background: var(--egis-vert); color: white; }
+    .btn-success:hover { background: #96A81D; }
+
+    .btn-outline-success { background: white; color: var(--egis-vert); border: 1.5px solid var(--egis-vert); }
+    .btn-outline-success:hover { background: var(--green-l); }
+
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11px; }
+
+    #save-api-btn {
+      width: 100%; background: var(--egis-bleu-azur); color: white;
+      border: none; border-radius: var(--radius);
+      height: 34px; font-family: var(--font-title);
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: background .15s, transform .08s;
+    }
+    #save-api-btn:hover { background: #007A8A; }
+    #save-api-btn:active { transform: scale(.98); }
+
+    /* ── MAIN SCROLL ── */
+    .main {
+      flex: 1; overflow-y: auto;
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      min-height: 0;
+    }
+    .main::-webkit-scrollbar { width: 5px; }
+    .main::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 10px; }
+
+    /* ── CARD ── */
+    .card { background: white; border: 1px solid var(--border); border-radius: var(--radius); }
+    .card-header {
+      padding: 7px 12px; background: var(--g100);
+      border-bottom: 1px solid var(--border);
+      font-size: 10.5px; font-weight: 700; color: var(--g700);
+      text-transform: uppercase; letter-spacing: .05em;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .card-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+    /* ── FIELD LABELS ── */
+    .field-group { display: flex; flex-direction: column; gap: 4px; }
+    .field-label {
+      font-size: 10px; font-weight: 700; color: var(--g700);
+      text-transform: uppercase; letter-spacing: .04em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge-optional {
+      font-size: 9px; font-weight: 600; padding: 1px 5px;
+      border-radius: 3px; background: var(--g200); color: var(--g400);
+      text-transform: uppercase; letter-spacing: .03em;
+    }
+    .field-hint {
+      font-size: 10px; color: var(--egis-gris-bleu);
+      font-style: italic; margin-top: 2px;
+    }
+
+    /* ── TEXTAREA ── */
+    textarea {
+      width: 100%; padding: 9px 10px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 12.5px; line-height: 1.6; color: var(--black);
+      resize: vertical;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    textarea:focus { outline: none; border-color: var(--egis-bleu-azur); box-shadow: 0 0 0 3px rgba(0, 153, 165, .1); }
+    textarea::placeholder { color: var(--g400); font-family: var(--font-title); font-size: 11px; }
+    textarea.ta-sm  { min-height: 52px; }
+    textarea.ta-md  { min-height: 80px; }
+    textarea.ta-lg  { min-height: 120px; }
+
+    /* ── BTN ROWS ── */
+    .btn-row { display: flex; gap: 7px; }
+    .btn-row .btn-primary { flex: 1; }
+    .result-actions { display: flex; gap: 7px; }
+    .result-actions .btn-success { flex: 1; }
+    .result-actions .btn-outline-success { flex: 1; }
+
+    /* ── RESULT ── */
+    #result-text {
+      background: var(--g100); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px;
+      font-size: 12px; line-height: 1.75;
+      white-space: pre-wrap; word-wrap: break-word;
+      color: var(--black);
+    }
+
+    /* Score badge */
+    .score-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 20px;
+      font-family: var(--font-title); font-size: 11px; font-weight: 800;
+    }
+    .score-satisfaisant  { background: var(--green-l); color: var(--egis-vert); border: 1.5px solid var(--egis-vert); }
+    .score-partiel       { background: #FFF9E6; color: #C98B00; border: 1.5px solid var(--egis-jaune-gold); }
+    .score-insuffisant   { background: var(--red-l); color: var(--egis-orange); border: 1.5px solid var(--egis-orange); }
+
+    /* ── LOADING ── */
+    #loading { display: none; }
+    .loading-inner { display: flex; align-items: center; gap: 10px; padding: 12px; }
+    .spinner {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border: 2px solid #E0F7F9;
+      border-top-color: var(--egis-bleu-azur);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading-text { font-size: 12px; color: var(--g700); font-style: italic; }
+
+    #result-container { display: none; }
+
+    /* ── STATUS BAR ── */
+    #status-bar {
+      padding: 6px 12px; font-size: 10.5px;
+      border-top: 1px solid var(--border); background: white;
+      display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0; color: var(--egis-gris-bleu);
+    }
+    #status-bar.ok  { color: var(--egis-vert); }
+    #status-bar.err { color: var(--egis-orange); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+    /* ── ANALYSE SECTIONS ── */
+    .analyse-section { margin-bottom: 10px; }
+    .analyse-section:last-child { margin-bottom: 0; }
+    .analyse-section-title {
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 5px;
+      font-family: var(--font-title);
+    }
+    .analyse-body {
+      font-size: 12px; line-height: 1.7;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+    .section-synthese .analyse-section-title { color: var(--egis-bleu-azur); }
+    .section-points-forts .analyse-section-title { color: var(--egis-vert); }
+    .section-reserves .analyse-section-title { color: var(--egis-orange); }
+    .section-score .analyse-section-title { color: var(--g700); }
+
+    .section-points-forts .analyse-body-wrap {
+      padding: 8px 10px; background: var(--green-l);
+      border-left: 3px solid var(--egis-vert); border-radius: 0 4px 4px 0;
+    }
+    .section-reserves .analyse-body-wrap {
+      padding: 8px 10px; background: var(--red-l);
+      border-left: 3px solid var(--egis-orange); border-radius: 0 4px 4px 0;
+    }
+    .section-synthese .analyse-body-wrap {
+      padding: 8px 10px; background: #E0F7F9;
+      border-left: 3px solid var(--egis-bleu-azur); border-radius: 0 4px 4px 0;
+    }
+    .section-corrige .analyse-body-wrap {
+      padding: 8px 10px; background: var(--g100);
+      border: 1px solid var(--border); border-radius: 4px;
+    }
+
+    /* divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">RC</div>
+  <div style="flex:1">
+    <div class="header-title">RC Analyse IA</div>
+    <div class="header-sub">Analyse des candidatures — Marchés publics</div>
+  </div>
+  <button id="cfg-toggle" title="Afficher / masquer la configuration">⚙</button>
+</div>
+
+<div id="api-setup">
+  <div class="cfg-row">
+    <div class="cfg-col">
+      <span class="cfg-label">Fournisseur</span>
+      <div class="sel-wrap">
+        <select id="api-provider">
+          <option value="anthropic">Anthropic</option>
+          <option value="groq">Groq</option>
+          <option value="openrouter">OpenRouter</option>
+        </select>
+      </div>
+    </div>
+    <div class="cfg-col">
+      <span class="cfg-label">Modèle</span>
+      <input type="text" id="api-model" placeholder="claude-sonnet-4-20250514" />
+    </div>
+  </div>
+  <div class="cfg-col">
+    <span class="cfg-label">Clé API</span>
+    <input type="password" id="api-key-input" placeholder="Saisir votre clé…" />
+  </div>
+  <button id="save-api-btn">✓ Valider la configuration</button>
+</div>
+
+<div class="main">
+
+  <div class="card">
+    <div class="card-header">📋 Critères du règlement de consultation</div>
+    <div class="card-body">
+
+      <div class="field-group">
+        <label class="field-label" for="field-metier">Métier / Objet du marché</label>
+        <textarea id="field-metier" class="ta-sm" placeholder="Ex : Ligne Aérienne de Contact Tramway"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="field-critere">Critère</label>
+        <textarea id="field-critere" class="ta-sm" placeholder="Ex : Chapitre 1 : Organisation et moyens humains — Chap. 1.1 : Organisation dédiée au projet"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="field-detail">
+          Détail du critère
+          <span class="badge-optional">Optionnel</span>
+        </label>
+        <textarea id="field-detail" class="ta-md" placeholder="Ex : Le candidat doit présenter l'organisation de l'entreprise ou du groupement, le détail des travaux confiés aux sous-traitants…"></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📝 Réponse de l'entreprise</div>
+    <div class="card-body">
+
+      <div class="field-group">
+        <textarea id="field-reponse" class="ta-lg" placeholder="Collez ici le texte de réponse du candidat issu de son mémoire technique…"></textarea>
+        <div class="field-hint">Vous pouvez importer directement votre sélection Word ↓</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="import-btn">📥 Importer la sélection Word</button>
+        <button class="btn btn-primary" id="run-btn" disabled>▶ Analyser</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="loading" class="card">
+    <div class="loading-inner">
+      <div class="spinner"></div>
+      <span id="loading-text">Analyse de la candidature en cours…</span>
+    </div>
+  </div>
+
+  <div id="result-container" class="card">
+    <div class="card-header">🔍 Résultat de l'analyse</div>
+    <div class="card-body" id="result-body">
+    </div>
+  </div>
+
+</div>
+
+<div id="status-bar">
+  <div class="status-dot"></div>
+  <span id="status-text">Configurez votre clé API pour commencer</span>
+</div>
+
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<script>
+'use strict';
+
+var currentProvider = 'anthropic';
+var lastResult = '';
+
+var DEFAULT_MODELS = {
+  anthropic:  'claude-sonnet-4-20250514',
+  groq:       'llama-3.3-70b-versatile',
+  openrouter: 'openai/gpt-4o-mini'
+};
+
+// ── INIT ──
+function bindUI() {
+  document.getElementById('cfg-toggle').addEventListener('click', toggleConfig);
+  document.getElementById('api-provider').addEventListener('change', onProviderChange);
+  document.getElementById('save-api-btn').addEventListener('click', saveApiConfig);
+  document.getElementById('run-btn').addEventListener('click', runAnalysis);
+  document.getElementById('import-btn').addEventListener('click', importSelection);
+  loadConfig();
+  startSelectionListener();
+}
+
+function toggleConfig() {
+  var panel  = document.getElementById('api-setup');
+  var btn    = document.getElementById('cfg-toggle');
+  var hidden = panel.classList.toggle('collapsed');
+  btn.classList.toggle('active', !hidden);
+  btn.title = hidden ? 'Afficher la configuration' : 'Masquer la configuration';
+}
+
+window.addEventListener('load', function() {
+  if (typeof Office !== 'undefined' && typeof Office.onReady === 'function') {
+    Office.onReady(function() { bindUI(); });
+  } else {
+    bindUI();
+  }
+});
+
+// ── CONFIG ──
+function loadConfig() {
+  var provider = localStorage.getItem('rc_provider') || 'anthropic';
+  currentProvider = provider;
+  document.getElementById('api-provider').value = provider;
+  applyProviderDefaults(provider);
+
+  var key = localStorage.getItem('rc_key_' + provider);
+  if (key) {
+    document.getElementById('api-key-input').value = key;
+    document.getElementById('run-btn').disabled = false;
+    setStatus('ok', 'Prêt — ' + provider);
+  }
+}
+
+function onProviderChange() {
+  var provider = document.getElementById('api-provider').value;
+  currentProvider = provider;
+  applyProviderDefaults(provider);
+  var key = localStorage.getItem('rc_key_' + provider) || '';
+  document.getElementById('api-key-input').value = key;
+  if (key) {
+    document.getElementById('run-btn').disabled = false;
+    setStatus('ok', 'Prêt — ' + provider);
+  } else {
+    document.getElementById('run-btn').disabled = true;
+    setStatus('', 'Saisir la clé pour ' + provider);
+  }
+}
+
+function applyProviderDefaults(provider) {
+  var saved = localStorage.getItem('rc_model_' + provider);
+  document.getElementById('api-model').value = saved || DEFAULT_MODELS[provider] || '';
+}
+
+function saveApiConfig() {
+  var provider = document.getElementById('api-provider').value;
+  var key      = document.getElementById('api-key-input').value.trim();
+  var model    = document.getElementById('api-model').value.trim();
+  if (!key) { setStatus('err', 'Clé API requise'); return; }
+  localStorage.setItem('rc_provider', provider);
+  localStorage.setItem('rc_key_' + provider, key);
+  localStorage.setItem('rc_model_' + provider, model);
+  currentProvider = provider;
+  document.getElementById('run-btn').disabled = false;
+  setStatus('ok', 'Configuration enregistrée — ' + provider);
+}
+
+// ── SELECTION EN TEMPS REEL ──
+var lastWordSelection = '';
+
+function startSelectionListener() {
+  if (typeof Office === 'undefined' || !Office.context || !Office.context.document) return;
+  Office.context.document.addHandlerAsync(
+    Office.EventType.DocumentSelectionChanged,
+    function() {
+      Office.context.document.getSelectedDataAsync(
+        Office.CoercionType.Text,
+        { valueFormat: Office.ValueFormat.Unformatted },
+        function(result) {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            var txt = (result.value || '').trim();
+            lastWordSelection = txt;
+            var btn = document.getElementById('import-btn');
+            if (btn) btn.title = txt
+              ? 'Sélection : ' + txt.substring(0, 60) + (txt.length > 60 ? '…' : '')
+              : 'Aucune sélection';
+          }
+        }
+      );
+    }
+  );
+}
+
+// ── IMPORT WORD ──
+function importSelection() {
+  if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
+    setStatus('err', 'Fonction disponible uniquement dans Word');
+    return;
+  }
+  Office.context.document.getSelectedDataAsync(
+    Office.CoercionType.Text,
+    { valueFormat: Office.ValueFormat.Unformatted },
+    function(result) {
+      var txt = '';
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        txt = (result.value || '').trim();
+      }
+      if (!txt && lastWordSelection) { txt = lastWordSelection; }
+      if (txt) {
+        document.getElementById('field-reponse').value = txt;
+        setStatus('ok', 'Texte importé (' + txt.length + ' car.)');
+      } else {
+        setStatus('err', 'Sélectionnez du texte dans Word puis cliquez Importer');
+      }
+    }
+  );
+}
+
+// ── PROMPT ──
+function buildPrompt() {
+  var metier  = document.getElementById('field-metier').value.trim();
+  var critere = document.getElementById('field-critere').value.trim();
+  var detail  = document.getElementById('field-detail').value.trim();
+  var reponse = document.getElementById('field-reponse').value.trim();
+
+  var detailBlock = detail
+    ? '\n\nDÉTAIL DU CRITÈRE :\n"""\n' + detail + '\n"""'
+    : '';
+
+  return 'Tu es un expert en marchés publics français, spécialisé dans l\'analyse et la notation des mémoires techniques de candidats.'
+    + ' Tu analyses la réponse d\'un candidat à un critère précis du règlement de consultation (RC) d\'un marché public.'
+    + '\n\nMÉTIER / OBJET DU MARCHÉ :\n"""\n' + metier + '\n"""'
+    + '\n\nCRITÈRE ÉVALUÉ :\n"""\n' + critere + '\n"""'
+    + detailBlock
+    + '\n\nRÉPONSE DU CANDIDAT :\n"""\n' + reponse + '\n"""'
+    + '\n\nRÈGLES D\'ANALYSE :'
+    + '\n1. Évalue si la réponse du candidat répond effectivement aux exigences du critère.'
+    + '\n2. Identifie les points forts : éléments concrets, précis, pertinents par rapport au critère.'
+    + '\n3. Identifie les réserves ou lacunes : éléments absents, vagues, ou insuffisamment détaillés.'
+    + '\n4. Attribue une appréciation globale parmi : "Satisfaisant", "Partiellement satisfaisant", "Insuffisant".'
+    + '\n5. Rédige la synthèse en 100 à 200 mots maximum, dans un style neutre et factuel adapté à un rapport d\'analyse de marché public.'
+    + '\n6. La synthèse est rédigée à la 3ème personne ("Le candidat...", "L\'entreprise...").'
+    + '\n\nRéponds UNIQUEMENT en JSON strict, sans texte avant ni après :'
+    + '\n{'
+    + '\n  "appreciation": "Satisfaisant|Partiellement satisfaisant|Insuffisant",'
+    + '\n  "synthese": "Texte de synthèse de 100 à 200 mots",'
+    + '\n  "points_forts": ["point 1", "point 2"],'
+    + '\n  "reserves": ["réserve 1", "réserve 2"]'
+    + '\n}';
+}
+
+// ── RUN ANALYSIS ──
+function runAnalysis() {
+  var metier  = document.getElementById('field-metier').value.trim();
+  var critere = document.getElementById('field-critere').value.trim();
+  var reponse = document.getElementById('field-reponse').value.trim();
+  var apiKey  = localStorage.getItem('rc_key_' + currentProvider);
+  var model   = document.getElementById('api-model').value.trim();
+
+  if (!metier)  { setStatus('err', 'Veuillez renseigner le champ Métier'); return; }
+  if (!critere) { setStatus('err', 'Veuillez renseigner le critère'); return; }
+  if (!reponse) { setStatus('err', 'Veuillez saisir la réponse de l\'entreprise'); return; }
+  if (!apiKey)  { setStatus('err', 'Clé API manquante — validez la configuration'); return; }
+
+  setLoading(true);
+  document.getElementById('result-container').style.display = 'none';
+
+  var prompt = buildPrompt();
+  var fetchPromise;
+
+  if (currentProvider === 'anthropic') {
+    fetchPromise = fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: model,
+        max_tokens: 1000,
+        temperature: 0.2,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    }).then(function(resp) {
+      return resp.json().then(function(data) {
+        if (!resp.ok) throw new Error(data.error && data.error.message ? data.error.message : 'Erreur ' + resp.status);
+        return data.content[0].text;
+      });
+    });
+
+  } else {
+    var url = currentProvider === 'groq'
+      ? 'https://api.groq.com/openai/v1/chat/completions'
+      : 'https://openrouter.ai/api/v1/chat/completions';
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    };
+    if (currentProvider === 'openrouter') {
+      headers['HTTP-Referer'] = window.location.origin || 'https://rc-analyse.local';
+      headers['X-Title'] = 'RC Analyse IA';
+    }
+
+    fetchPromise = fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        model: model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+        max_tokens: 1200
+      })
+    }).then(function(resp) {
+      return resp.json().then(function(data) {
+        if (resp.status === 429) throw new Error('Trop de requêtes. Attendez quelques secondes et réessayez.');
+        if (!resp.ok) {
+          var errMsg = data.error && data.error.message ? data.error.message : ('Erreur ' + resp.status);
+          throw new Error(errMsg);
+        }
+        return data.choices[0].message.content;
+      });
+    });
+  }
+
+  fetchPromise.then(function(resultText) {
+    renderAnalyse(resultText);
+    setStatus('ok', 'Analyse terminée');
+  }).catch(function(e) {
+    var errMsg = e.message;
+    if (errMsg.includes('401') || errMsg.includes('Unauthorized')) {
+      setStatus('err', '🔑 Clé API invalide ou expirée');
+    } else if (errMsg.includes('429')) {
+      setStatus('err', '⏱️ Trop de requêtes — attendez quelques secondes');
+    } else {
+      setStatus('err', 'Erreur : ' + errMsg);
+    }
+  }).finally(function() {
+    setLoading(false);
+  });
+}
+
+// ── RENDER ANALYSE ──
+function renderAnalyse(raw) {
+  var container = document.getElementById('result-container');
+  var body = document.getElementById('result-body');
+
+  try {
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var data  = JSON.parse(clean);
+
+    // Sauvegarder la synthèse pour copie/insertion Word
+    lastResult = data.synthese || '';
+
+    var apprec = data.appreciation || '';
+    var scoreClass = apprec === 'Satisfaisant' ? 'score-satisfaisant'
+      : apprec === 'Partiellement satisfaisant' ? 'score-partiel'
+      : 'score-insuffisant';
+    var scoreIcon = apprec === 'Satisfaisant' ? '✔'
+      : apprec === 'Partiellement satisfaisant' ? '⚠'
+      : '✘';
+
+    var html = '';
+
+    // Score
+    html += '<div class="analyse-section section-score">'
+      + '<div class="analyse-section-title">Appréciation globale</div>'
+      + '<span class="score-badge ' + scoreClass + '">' + scoreIcon + ' ' + esc(apprec) + '</span>'
+      + '</div>';
+
+    html += '<hr class="divider"/>';
+
+    // Synthèse
+    if (data.synthese) {
+      html += '<div class="analyse-section section-synthese">'
+        + '<div class="analyse-section-title">Synthèse</div>'
+        + '<div class="analyse-body-wrap"><div class="analyse-body">' + esc(data.synthese) + '</div></div>'
+        + '</div>';
+    }
+
+    // Points forts
+    if (data.points_forts && data.points_forts.length > 0) {
+      html += '<div class="analyse-section section-points-forts">'
+        + '<div class="analyse-section-title">✔ Points forts</div>'
+        + '<div class="analyse-body-wrap"><ul style="margin:0 0 0 14px;font-size:12px;line-height:1.7;color:var(--g700);">';
+      data.points_forts.forEach(function(p) {
+        html += '<li style="margin:3px 0;">' + esc(p) + '</li>';
+      });
+      html += '</ul></div></div>';
+    }
+
+    // Réserves
+    if (data.reserves && data.reserves.length > 0) {
+      html += '<div class="analyse-section section-reserves">'
+        + '<div class="analyse-section-title">⚠ Réserves / Lacunes</div>'
+        + '<div class="analyse-body-wrap"><ul style="margin:0 0 0 14px;font-size:12px;line-height:1.7;color:var(--g700);">';
+      data.reserves.forEach(function(r) {
+        html += '<li style="margin:3px 0;">' + esc(r) + '</li>';
+      });
+      html += '</ul></div></div>';
+    }
+
+    // Actions
+    html += '<hr class="divider"/>'
+      + '<div class="result-actions">'
+      + '<button class="btn btn-success btn-sm" id="insert-btn">➕ Insérer dans Word</button>'
+      + '<button class="btn btn-outline-success btn-sm" id="replace-btn">↔ Remplacer</button>'
+      + '<button class="btn btn-ghost btn-sm" id="copy-btn">📋 Copier</button>'
+      + '</div>';
+
+    body.innerHTML = html;
+
+    document.getElementById('insert-btn').addEventListener('click', insertResult);
+    document.getElementById('replace-btn').addEventListener('click', replaceSelection);
+    document.getElementById('copy-btn').addEventListener('click', copyResult);
+
+    container.style.display = 'block';
+
+  } catch(e) {
+    // Fallback texte brut
+    lastResult = raw;
+    body.innerHTML = '<div id="result-text">' + esc(raw) + '</div>'
+      + '<div class="result-actions" style="margin-top:10px;">'
+      + '<button class="btn btn-ghost btn-sm" id="copy-btn">📋 Copier</button>'
+      + '</div>';
+    document.getElementById('copy-btn').addEventListener('click', copyResult);
+    container.style.display = 'block';
+  }
+}
+
+function esc(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');
+}
+
+// ── WORD ACTIONS ──
+function insertResult() {
+  if (!lastResult) return;
+  if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
+    setStatus('err', 'Disponible uniquement dans Word');
+    return;
+  }
+  Office.context.document.setSelectedDataAsync(
+    '\n' + lastResult,
+    { coercionType: Office.CoercionType.Text },
+    function(result) {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        setStatus('ok', 'Synthèse insérée après la sélection');
+      } else {
+        if (typeof Word !== 'undefined') {
+          Word.run(function(ctx) {
+            var range = ctx.document.getSelection();
+            range.insertText('\n' + lastResult, Word.InsertLocation.after);
+            return ctx.sync();
+          }).then(function() {
+            setStatus('ok', 'Synthèse insérée');
+          }).catch(function(e) {
+            setStatus('err', 'Erreur insertion : ' + e.message);
+          });
+        } else {
+          setStatus('err', 'Erreur insertion : ' + (result.error ? result.error.message : 'inconnue'));
+        }
+      }
+    }
+  );
+}
+
+function replaceSelection() {
+  if (!lastResult) return;
+  if (typeof Office === 'undefined' || !Office.context || !Office.context.document) {
+    setStatus('err', 'Disponible uniquement dans Word');
+    return;
+  }
+  Office.context.document.setSelectedDataAsync(
+    lastResult,
+    { coercionType: Office.CoercionType.Text },
+    function(result) {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        setStatus('ok', 'Texte remplacé');
+      } else {
+        setStatus('err', 'Erreur remplacement : ' + (result.error ? result.error.message : 'inconnue'));
+      }
+    }
+  );
+}
+
+function copyResult() {
+  if (!lastResult) return;
+  navigator.clipboard.writeText(lastResult)
+    .then(function() { setStatus('ok', 'Synthèse copiée dans le presse-papiers'); })
+    .catch(function() { setStatus('err', 'Erreur copie'); });
+}
+
+// ── HELPERS ──
+function setLoading(on) {
+  document.getElementById('loading').style.display = on ? 'block' : 'none';
+  document.getElementById('run-btn').disabled = on;
+}
+
+function setStatus(type, msg) {
+  document.getElementById('status-bar').className = type;
+  document.getElementById('status-text').textContent = msg;
+}
+</script>
+</body>
+</html>
